@@ -12,6 +12,7 @@ import numpy as np
 # We used keras 2.2.5 and tensorflow version 1.6
 
 app.config["IMAGE_UPLOADS"] = "/uploads"
+filename = ""
 
 app = Flask(__name__)
 
@@ -24,7 +25,8 @@ def upload_image():
     if request.method == "POST":
         if request.files:
             image = request.files["image"]
-            image.save(os.path.join(app.config["IMAGE_UPLOADS"], "uploadedImage"))
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
             print("image saved")
             return redirect(request.url)
     return render_template("upload_image.html")
@@ -39,7 +41,7 @@ def my_form_post():
     model = load_model('digit_classifier.h5')
 
     #Loads and converts image to MNIST format
-    img = load_img('/uploads/uploadedImage', color_mode = "grayscale", target_size=(28,28))
+    img = load_img('/uploads/filename', color_mode = "grayscale", target_size=(28,28))
     img = img_to_array(img)
     img = img.reshape(1, 28, 28, 1)
     img = img.astype('float32')
