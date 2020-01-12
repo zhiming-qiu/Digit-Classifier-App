@@ -11,10 +11,10 @@ import numpy as np
 
 # We used keras 2.2.5 and tensorflow version 1.6
 
-app.config["IMAGE_UPLOADS"] = "/uploads"
-filename = ""
-
 app = Flask(__name__)
+
+filename = ""
+app.config["IMAGE_UPLOADS"] = "/uploads"
 
 @app.route("/")
 def home():
